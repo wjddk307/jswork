@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="div1" class="div">
+        <div>       
+            <span>java</span><span>3000</span><button type="button" class="btn">선택</button></div>
+        </div>
+    <div id="div2"><span>spring</span><span>4000</span><button type="button" class="btn">선택</button></div>
+    <div id="div3"><span>javascript</span><span>2000</span><button type="button" class="btn">선택</button></div>
+    <script>
+        // 1. class가 btn인 태그 찾기
+        let btns = document.getElementsByClassName("btn");
+        // 2. for
+        for(i=0; i<btns.length; i++) {
+           btns[i].addEventListener("click", function() {
+              // window.event.target
+               let spanText = this.parentElement.firstChild.innerHTML; //firstElementChild와 다름
+               let sp1 = this.parentElement.getElementsByTagName("span")[0].innerHTML
+               let sp2 = this.parentElement.getElementsByTagName("span")[1].innerHTML
+               console.log(spanText , sp1 , sp2);
+ 
+           })
+        }
+    </script>
+</body>
+</html>

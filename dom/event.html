@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div><span>java</span><button type="button" class="btn">선택</button></div>
+    <div><span>spring</span><button type="button" class="btn">선택</button></div>
+    <div><span>javascript</span><button type="button" class="btn">선택</button></div>
+    <script>
+        // 1. class가 btn인 태그 찾기
+        let btns = document.getElementsByClassName("btn");
+        // 2. for
+        for(i=0; i<btns.length; i++) {
+           btns[i].addEventListener("click", function() {
+              // window.event.target
+               let spanText = this.previousElementSibling.innerHTML;
+               alert(spanText);
+           })
+        }
+    </script>
+</body>
+</html>

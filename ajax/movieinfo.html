@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input>
+    <button type="button" id="btn">영화상세정보</button>
+    <div id="result">
+        <div>
+            <span>상영시간</span>
+            <span>감독이름</span> 
+            <span>배우들</span>          
+        </div>
+    </div>
+    <script>
+        // 박스오피스 조회
+        btn.addEventListener("click",function() {
+            let url = "http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json?key=f5eef3421c602c6cb7ea224104795888&movieCd=20124079";
+            fetch(url)
+            .then(res => res.json())
+            .then(obj => {
+                 console.log(obj);
+                let acts = obj.movieInfoResult.movieInfo.actors;
+                let directs = obj.movieInfoResult.movieInfo.directors[0].peopleNm;            
+                    result.innerHTML += `<div>                            
+                                            <span>${directs}</span>
+                                         </div>`;
+                for(act of acts) {
+                    result.innerHTML += `<div>                            
+                                            <span>${act.peopleNm}</span>
+                                         </div>`;
+                }
+                console.log(obj.movieInfoResult.movieInfo.directors[0].peopleNm);
+              
+            })
+        })
+    </script>
+</body>
+</html>

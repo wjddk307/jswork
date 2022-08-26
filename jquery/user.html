@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"> 
+    <link rel="icon" href="./images/favicon.png" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<link rel="stylesheet"	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<form name="form1" id="form1"  class="form-horizontal">
+			<h2>사용자 등록 및 수정</h2>
+			<div class="form-group">
+				<label>아이디:</label> <input type="text" class="form-control"
+					name="id">
+			</div>
+			<div class="form-group">
+				<label>이름:</label> <input type="text" class="form-control"
+					name="name">
+			</div>
+			<div class="form-group">
+				<label>패스워드:</label> <input type="text" class="form-control"
+					name="password">
+			</div>
+			<div class="form-group">
+				<label>역할:</label> <select class="form-control" name="role">
+					<option value="Admin">관리자</option>
+					<option value="User">사용자</option>
+				</select>
+			</div>
+			<div class="btn-group">
+				<input type="button" class="btn btn-primary" value="등록" id="btnInsert" /> 
+				<input type="button" class="btn btn-primary" value="수정" id="btnUpdate" /> 
+				<input type="button" class="btn btn-primary" value="초기화" id="btnInit" />
+			</div>
+		</form>
+	</div>
+	<hr />
+	<div class="container">
+		<h2>사용자 목록</h2>
+		<table class="table text-center">
+			<thead>
+				<tr>
+					<th class="text-center">아이디</th>
+					<th class="text-center">패스워드</th>
+					<th class="text-center">이름</th>
+					<th class="text-center">롤</th>
+					<th class="text-center"></th>
+				</tr>
+			</thead>
+			
+			<tbody id="tbody">
+				<!-- <tr>
+					<td class="text-center">user</td>
+					<td class="text-center">1111</td>
+					<td class="text-center">홍길동</td>
+					<td class="text-center">User</td>
+					<td class="text-center">
+						<button class="btnUpd">조회</button>
+						<button class="btnDel">삭제</button>
+					</td>
+				</tr> -->
+
+			</tbody>
+		</table>
+	</div>
+    <script>
+		 userList();
+		 userInsert();
+		 userDelete();
+		 init();
+		 userSelect();
+		 userUpdate();
+
+		//전체조회
+		function userList(){
+			var url = 'http://localhost/myserver/userSelectAll';
+			//	let tbody = document.getElementsByTagName("tbody")[0];
+			$("#tbody").html("");
+			$.ajax(url)
+			.done(objs => {
+				for(obj of objs) {
+					$("#tbody").append(mageTr(obj))
+			}
+			})
+		}
+
+		function mageTr(obj) {
+			return `<tr>
+					<td class="text-center">${obj.id}</td>
+					<td class="text-center">${obj.password}</td>
+					<td class="text-center">${obj.name}</td>
+					<td class="text-center">${obj.role}</td>
+					<td class="text-center">
+						<button class="btnUpd">조회</button>
+						<button class="btnDel">삭제</button>
+					</td>
+				</tr>`
+		}
+
+			 
+		// 등록버튼
+		function userInsert(){
+			$("#btnInsert").on("click", function() {
+				let url = "http://localhost/myserver/userInsert";
+				let param = `id=${document.form1.id.value}&password=${document.form1.password.value}&name=${document.form1.name.value}&role=${document.form1.role.value}`;
+				// let formData = $("#form1").serialize();
+				$.ajax(url, {
+					method : "post", /*form으로만 가능.*/
+					data : param  /* param 대신 new FormData(document.form1) => 쿼리 문자열 넘길 필요없음 */
+				})
+				.done(obj => {					
+					$("#tbody").append(mageTr(obj));
+					$("[name='id']").val("")
+					$("[name='password']").val("");
+					$("[name='name']").val("");
+					$("[name='role']").val("");
+				})
+			})
+		}
+
+		// 조회버튼
+		function userSelect() {
+			$("#tbody").on("click",'.btnUpd', function(e) {
+				e = window.event || e;
+				//document.querySelector(".btnUpd").closest("tr").children[0].innerHTML
+					let id = $(e.target).closest("tr").children().first().html() /*버튼의 closest("tr").첫번째자식.내용*/
+					console.log(e.target)
+					let url = `http://localhost/myserver/userSelect?id=${id}`;
+				$.ajax(url)
+				.done(obj => {
+					console.log(obj.id);
+					$("[name='id']").val(obj.id);
+					$("[name='password']").val(obj.password);
+					$("[name='name']").val(obj.name);
+					$("[name='role']").val(obj.role);
+                    
+				
+					
+				}) 
+				
+			})
+		}
+
+		// 삭제버튼
+		function userDelete() {
+			$("#tbody").on("click",'.btnDel',function(e) {
+				e = window.event || e; /* event 있으면 event 받아오고 없으면 e 받아옴. */
+					// 삭제확인
+					if(! confirm("삭제할까요?")){
+						return;
+					}
+				let id = $(e.target).closest("tr").children().first().html() /*버튼의 closest("tr").첫번째자식.내용*/
+				let url = `http://localhost/myserver/userDelete?id=${id}`;
+				$.ajax(url)
+				.done(obj => {
+					$(e.target).closest("tr").remove();
+				})
+			
+			})
+		}
+
+		// 수정버튼
+		function userUpdate() {
+			$("#btnUpdate").on("click", function(e) {
+				let url = "http://localhost/myserver/userUpdate";
+				let param = `id=${document.form1.id.value}&password=${document.form1.password.value}&name=${document.form1.name.value}&role=${document.form1.role.value}`;
+				$.ajax(url, {
+					method : "post",
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					data : param
+				})
+				.done(obj => {
+					userList();
+				})
+			})
+		}
+
+
+		// 초기화버튼
+		function init() {
+			$("#btnInit").on("click", function() {
+				$("#form1")[0].reset();
+			})
+		}
+	</script>
+</body>
+</html>

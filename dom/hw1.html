@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .back {
+            background-color: coral;
+        }
+    </style>
+</head>
+<body>
+    <input id="txtWord"><button type="button" id="btnAdd">추가</button>
+    <div id="divv">
+    <p class="word">list</p>
+    <p class="word">nice</p>
+    <p class="word">good</p>
+    <p class="word">very</p>
+    </div>
+    <script>
+        //추가버튼 클릭하면 input태그의 값을 p태그 만들어서 추가
+      
+        btnAdd.addEventListener("click", function(){
+            let add = document.createElement("p");
+            divv.appendChild(add);
+            add.setAttribute("class", "word");
+            add.innerHTML = document.getElementById("txtWord").value;
+        })
+
+        //p태그를 클릭하면 배경색 변경
+
+        let color = document.getElementsByTagName("p");
+        for(col of color){
+            col.addEventListener("click", function() {
+             //   console.log(col);
+              this.classList.toggle("back");
+             //   console.log(this);
+        })
+
+            
+        }
+        
+    </script>
+</body>
+</html>

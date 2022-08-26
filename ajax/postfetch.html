@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>postfetch</title>
+
+<script>
+    window.addEventListener("load", function() {
+        btn.addEventListener("click", loadDoc); // 괄호 있으면 바로 실행 되버림
+    })
+
+    
+    function loadDoc() {
+     //   const ajax = new XMLHttpRequest(); //1. XMLHttpRequest 객체 생성
+        const url = "https://jsonplaceholder.typicode.com/posts"; //2. 서버 URL
+        fetch(url) // open,send
+        .then(res => res.json()) //let objs = JSON.parse(ajax.response); // java 결과값 넘겨줄 때 String 으로 넘겨줌. -> 다시 바꾸기 위해 JSON.parse(ajax.responseText); 
+        .then(objs => {
+            for(obj of objs) 
+            list.innerHTML += `<tr>
+                                 <td>${obj.id }</td>
+                                 <td>${obj.title }</td>
+                                 <td>${obj.userId }</td>
+                              </tr>`;
+        
+        }) 
+    }
+</script>
+
+</head>
+<body>
+    <h3>post</h3>
+    <button type="button" id="btn">ajax 요청</button>
+    <table>
+        <thead>
+            <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+        <tbody id="list">
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

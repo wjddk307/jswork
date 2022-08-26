@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>plugin(widget)</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    
+
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+ 
+  <script>
+     /* $(window).ready(function(){}) */
+     $(function(){  // load => ready(jquery)
+
+        // 아코디언
+        $("#accord").accordion({
+            heightStyle: "content",
+            //active :1,
+            animate: 1000,
+            collapsible: false,// 하나는 펼쳐져 있어야함
+            activate : function(event, ui) {
+               // console.log(ui.newHeader.text())
+               // console.log(ui.oldHeader.text())
+
+              // console.log(ui.newHeader.attr("data-id"))
+              console.log(ui.newHeader.data("id"))
+            }
+        });
+
+        // 데이트피커
+        $("#sdt").datepicker({
+            dateFormat : 'yy/mm/dd', 
+            minDate: -7, /* y,m,d,w */
+             maxDate: "+1M +10D",  /*y,m,d,w*/
+             onSelect : function(date,obj) {
+                 console.log(date)
+                 console.dir(obj.currentDay) /*currentMonth : +1 해줘야함*/
+
+             }
+        })
+
+        // 모달
+        let popup = $("#dialog").dialog({
+            autoOpen: false,
+            open: function(event, ui) {
+                console.log("오픈됨")
+            },
+            modal: true, /*모달창 연채로 밖에 제어 못함*/
+            buttons :{
+                      'save': function(){},
+                      'close': function(){}
+                    } ,
+
+        });
+
+        $("#btn").on("click", function() { /*버튼 누르면 모달 나오게*/
+            popup.dialog("open");
+        })
+
+        // 데이터 테이블
+        let empDt = $('#myTable').DataTable({
+            ajax: {
+                url: 'http://localhost/myserver/empSelect',
+                dataSrc: ''
+             },
+             columns: [
+                        { data: 'employee_id' },
+                        { data: 'first_name' },
+                        { data: 'salary' },
+                        { data: 'job_id' },
+                       
+                      ]
+
+        });
+
+        empDt.on("click", function( e, dt, type, indexes ){  /*데이터 테이블에 이벤트 걸 때 => empDt.on*/
+                console.log(type);
+                console.log(indexes)
+        });
+
+     })
+  </script>
+</head>
+<body>
+
+   <div id="accord">
+    <h3 data-id="100">java</h3>
+    <div>
+        <p>Data: <input type="text" id="datepicker"><button id="btn">등록</button></p>
+
+    </div>
+    <h3 data-id="100">게시판</h3>
+    <div>
+        <table id="myTable" style="width: 100%">
+            <thead>
+                <tr>
+                    <td>번호</td>
+                    <td>이름</td>
+                    <td>급여</td>
+                    <td>직무</td>
+                </tr>
+        </thead>
+        <tbody>
+    
+        </tbody>
+    
+      </table>
+    </div> 
+   </div> 
+
+
+   <div id="dialog" title="수업종료">
+    <input id="sdt">
+    <input>id
+    <input>name
+  </div>
+
+
+
+</body>
+</html>

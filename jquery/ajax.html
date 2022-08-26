@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn">등록</button>
+    <script>
+        // post방식
+        $("#btn").on("click", function(){
+            let url = "http://localhost/myserver/todoInsert"
+            
+            // $.post(url, {contents:'todo test'}, function(obj) {
+            //        console.dir(obj);
+            // })
+            $.ajax(url, {
+                method: "post",
+                data: {contents:'ajax333'},
+            }).done( function(obj){
+                console.log(obj);
+               
+            });
+            
+        });
+
+
+       /*   let url ="http://localhost/myserver/adoptInsert";
+            let param = `id=${id}&price=${price}`;
+            fetch(url, {
+              method : "post",
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              } ,
+              body : param
+            })
+            .then(res => res.json())
+            .then(obj=>{
+              
+            })  */
+            
+
+    </script>
+</body>
+</html>

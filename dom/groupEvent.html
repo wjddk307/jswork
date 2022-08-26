@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>   
+    <script>
+        window.addEventListener("load", function() {  //$(function(){})
+
+            // 추가버튼 핸들러
+            btn.addEventListener("click", function() {
+               // let div = document.createElement("div");
+               // div.innerHTML = txt.value;
+                result.innerHTML += `<p class="adddiv">${txt.value}</p>`;
+                txt.value = "";
+            })
+
+            // div 클릭핸들러
+               result.addEventListener("click", function() { // contains
+                 // if( event.target.classList.contains("adddiv")) { // add, remove, toggle
+                     if(event.target.tagName == 'P') {
+                      event.target.style.backgroundColor = "coral";
+                  }
+                  console.dir(event.target); // this : result
+                })
+            })
+        
+    </script>
+</head>
+<body>
+    <input id="txt"><button id="btn" type="button" >추가</button><br>
+    <div id="result">
+        <p class="adddiv">dddd</p>
+    </div>
+</body>
+</html>
